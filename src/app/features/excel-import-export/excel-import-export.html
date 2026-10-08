@@ -1,0 +1,32 @@
+<div class="excel-container">
+  <button class="btn-back" (click)="backToDashboard()">← Back to Dashboard</button>
+  <h2>Excel Import / Export</h2>
+
+  <section class="card">
+    <h3>Export Quotes</h3>
+    <p>Download all quotes, customers, and pets as a formatted .xlsx workbook.</p>
+    <button (click)="exportQuotes()" [disabled]="isExporting" class="btn-primary">
+      {{ isExporting ? 'Exporting...' : 'Export to Excel' }}
+    </button>
+  </section>
+
+  <section class="card">
+    <h3>Import Quotes</h3>
+    <p>Upload a .xlsx workbook matching the exported format to bulk-import quotes.</p>
+    <input type="file" accept=".xlsx" (change)="onFileSelected($event)" />
+    <button (click)="importQuotes()" [disabled]="isImporting || !selectedFile" class="btn-primary">
+      {{ isImporting ? 'Importing...' : 'Import from Excel' }}
+    </button>
+
+    <div class="success-message" *ngIf="importResult">
+      <p>{{ importResult.message }}</p>
+      <ul>
+        <li>Quotes imported: {{ importResult.importedQuotes }}</li>
+        <li>Customers imported: {{ importResult.importedCustomers }}</li>
+        <li>Pets imported: {{ importResult.importedPets }}</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="server-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>

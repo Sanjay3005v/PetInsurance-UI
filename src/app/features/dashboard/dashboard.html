@@ -1,0 +1,97 @@
+<div class="dashboard">
+  <header class="dashboard-header">
+    <h1>Pet Insurance — Quote Dashboard</h1>
+    <div class="header-actions">
+      <button (click)="createQuote()" class="btn-primary">+ New Quote</button>
+      <button (click)="router.navigate(['/excel'])" class="btn-secondary">Excel Import/Export</button>
+      <button (click)="logout()" class="btn-secondary">Logout</button>
+    </div>
+  </header>
+
+  <!-- Summary Cards -->
+  <section class="summary-cards" *ngIf="metrics">
+    <div class="card">
+      <span class="card-label">Total Quotes</span>
+      <span class="card-value">{{ metrics.totalQuotes }}</span>
+    </div>
+    <div class="card">
+      <span class="card-label">Active</span>
+      <span class="card-value">{{ metrics.activeQuotes }}</span>
+    </div>
+    <div class="card">
+      <span class="card-label">Converted</span>
+      <span class="card-value">{{ metrics.convertedQuotes }}</span>
+    </div>
+    <div class="card">
+      <span class="card-label">Expired</span>
+      <span class="card-value">{{ metrics.expiredQuotes }}</span>
+    </div>
+    <div class="card">
+      <span class="card-label">Avg Premium</span>
+      <span class="card-value">${{ metrics.averagePremium | number:'1.2-2' }}</span>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="filters">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Search by name or email" />
+    <select [(ngModel)]="species">
+      <option value="">All Species</option>
+      <option value="Dog">Dog</option>
+      <option value="Cat">Cat</option>
+    </select>
+    <select [(ngModel)]="status">
+      <option value="">All Status</option>
+      <option value="Active">Active</option>
+      <option value="Converted">Converted</option>
+      <option value="Expired">Expired</option>
+      <option value="Cancelled">Cancelled</option>
+    </select>
+    <button (click)="applyFilters()" class="btn-primary">Search</button>
+  </section>
+
+  <!-- Quote Grid -->
+  <table class="quote-table" *ngIf="!loading; else loadingTpl">
+    <thead>
+      <tr>
+        <th>Quote #</th>
+        <th>Customer</th>
+        <th>Pet</th>
+        <th>Species</th>
+        <th>Premium</th>
+        <th>Expiry</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let q of quotes">
+        <td>{{ q.quoteNumber }}</td>
+        <td>{{ q.customerName }}</td>
+        <td>{{ q.petName }}</td>
+        <td>{{ q.species }}</td>
+        <td>${{ q.finalPremium | number:'1.2-2' }}</td>
+        <td>{{ q.expiryDate | date:'dd-MM-yyyy' }}</td>
+        <td><span class="status-badge" [class]="q.status.toLowerCase()">{{ q.status }}</span></td>
+        <td class="actions">
+          <button (click)="viewQuote(q.quoteId)">View</button>
+          <button (click)="editQuote(q.quoteId)">Edit</button>
+          <button (click)="recalculate(q.quoteId)">Recalc</button>
+          <button (click)="convert(q.quoteId)" *ngIf="q.status === 'Active'">Convert</button>
+          <button (click)="cancelQuote(q.quoteId)" *ngIf="q.status === 'Active'">Cancel</button>
+        </td>
+      </tr>
+      <tr *ngIf="quotes.length === 0">
+        <td colspan="8" class="no-data">No quotes found.</td>
+      </tr>
+    </tbody>
+  </table>
+  <ng-template #loadingTpl><p class="loading">Loading quotes...</p></ng-template>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="goToPage(pageNumber - 1)" [disabled]="pageNumber === 1">Prev</button>
+    <span>Page {{ pageNumber }} of {{ totalPages }} ({{ totalCount }} total)</span>
+    <button (click)="goToPage(pageNumber + 1)" [disabled]="pageNumber === totalPages">Next</button>
+  </div>
+</div>

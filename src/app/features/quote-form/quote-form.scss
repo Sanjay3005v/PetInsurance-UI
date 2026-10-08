@@ -1,0 +1,9 @@
+.quote-form-container { padding: var(--space-xl); max-width: 700px; margin: 0 auto; }
+.quote-form { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: var(--space-xl); }
+fieldset { border: 1px solid var(--color-border); border-radius: var(--radius-md); margin-bottom: var(--space-lg); padding: var(--space-md) var(--space-lg); }
+legend { font-weight: 600; font-size: var(--font-size-sm); color: var(--color-primary); padding: 0 var(--space-xs); }
+.form-row { display: flex; gap: var(--space-md); }
+.form-group { flex: 1; margin-bottom: var(--space-md); }
+.checkbox-group label { display: flex; align-items: center; gap: var(--space-sm); font-weight: 400; }
+.checkbox-group input { width: auto; }
+.form-actions { display: flex; justify-content: flex-end; gap: var(--space-sm); margin-top: var(--space-lg); }

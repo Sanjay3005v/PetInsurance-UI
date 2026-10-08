@@ -1,0 +1,56 @@
+<div class="quote-details-container">
+  <button class="btn-back" (click)="backToDashboard()">← Back to Dashboard</button>
+
+  <div *ngIf="loading" class="loading">Loading quote details...</div>
+  <div *ngIf="errorMessage" class="server-error">{{ errorMessage }}</div>
+  <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
+
+  <div *ngIf="quote && !loading" class="quote-card">
+    <div class="quote-header">
+      <h2>Quote {{ quote.quoteNumber }}</h2>
+      <span class="status-badge" [class]="quote.status.toLowerCase()">{{ quote.status }}</span>
+    </div>
+
+    <section class="info-section">
+      <h3>Customer</h3>
+      <p><strong>Name:</strong> {{ quote.customerName }}</p>
+      <p><strong>Email:</strong> {{ quote.email }}</p>
+    </section>
+
+    <section class="info-section">
+      <h3>Pet</h3>
+      <p><strong>Name:</strong> {{ quote.petName }}</p>
+      <p><strong>Species:</strong> {{ quote.species }}</p>
+    </section>
+
+    <section class="premium-breakdown">
+      <h3>Premium Breakdown</h3>
+      <table>
+        <tr><td>Base Premium</td><td>${{ quote.basePremium | number:'1.2-2' }}</td></tr>
+        <tr><td>Age Adjustment</td><td>+ ${{ quote.ageAdjustment | number:'1.2-2' }}</td></tr>
+        <tr><td>Wellness Amount</td><td>+ ${{ quote.wellnessAmount | number:'1.2-2' }}</td></tr>
+        <tr><td>Multi-Pet Discount</td><td>- ${{ quote.discountAmount | number:'1.2-2' }}</td></tr>
+        <tr class="final-row"><td>Final Premium</td><td>${{ quote.finalPremium | number:'1.2-2' }}</td></tr>
+      </table>
+    </section>
+
+    <section class="info-section">
+      <p><strong>Created:</strong> {{ quote.createdDate | date:'dd-MM-yyyy' }}</p>
+      <p><strong>Expires:</strong> {{ quote.expiryDate | date:'dd-MM-yyyy' }}</p>
+    </section>
+
+    <div class="actions">
+      <button (click)="edit()" [disabled]="actionInProgress || quote.status !== 'Active'">Edit</button>
+      <button (click)="recalculate()" [disabled]="actionInProgress || quote.status !== 'Active'">Recalculate</button>
+      <div class="confirm-overlay" *ngIf="showConfirmDialog">
+    <div class="confirm-box">
+        <p>{{ confirmMessage }}</p>
+        <div class="confirm-actions">
+        <button class="btn-secondary" (click)="onConfirmNo()">Cancel</button>
+        <button class="btn-primary" (click)="onConfirmYes()">Yes, Continue</button>
+        </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>

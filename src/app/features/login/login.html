@@ -1,0 +1,29 @@
+<div class="login-container">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    <h2>Pet Insurance — Login</h2>
+
+    <div class="form-group">
+      <label for="userName">Username</label>
+      <input id="userName" type="text" formControlName="userName" placeholder="admin" />
+      <span class="error" *ngIf="loginForm.get('userName')?.touched && loginForm.get('userName')?.invalid">
+        Username is required.
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" placeholder="••••••••" />
+      <span class="error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+        Password must be at least 6 characters.
+      </span>
+    </div>
+
+    <div class="server-error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <button type="submit" [disabled]="isSubmitting">
+      {{ isSubmitting ? 'Logging in...' : 'Login' }}
+    </button>
+  </form>
+</div>
