@@ -15,12 +15,26 @@
       <h3>Customer</h3>
       <p><strong>Name:</strong> {{ quote.customerName }}</p>
       <p><strong>Email:</strong> {{ quote.email }}</p>
+      <p><strong>Phone:</strong> {{ quote.phone }}</p>
+      <p><strong>Zip Code:</strong> {{ quote.zipCode }}</p>
     </section>
 
     <section class="info-section">
       <h3>Pet</h3>
       <p><strong>Name:</strong> {{ quote.petName }}</p>
       <p><strong>Species:</strong> {{ quote.species }}</p>
+      <p><strong>Breed:</strong> {{ quote.breed }}</p>
+      <p><strong>Date of Birth:</strong> {{ quote.dateOfBirth | date:'dd-MM-yyyy' }}</p>
+      <p><strong>Gender:</strong> {{ quote.gender }}</p>
+      <p><strong>Pre-Existing Condition:</strong> {{ quote.hasPreExistingCondition ? 'Yes' : 'No' }}</p>
+    </section>
+
+    <section class="info-section">
+      <h3>Coverage Options</h3>
+      <p><strong>Annual Limit:</strong> ${{ quote.annualLimit | number:'1.2-2' }}</p>
+      <p><strong>Deductible:</strong> ${{ quote.deductible | number:'1.2-2' }}</p>
+      <p><strong>Reimbursement:</strong> {{ quote.reimbursementPct }}%</p>
+      <p><strong>Wellness Add-on:</strong> {{ quote.wellness ? 'Yes' : 'No' }}</p>
     </section>
 
     <section class="premium-breakdown">
@@ -42,15 +56,18 @@
     <div class="actions">
       <button (click)="edit()" [disabled]="actionInProgress || quote.status !== 'Active'">Edit</button>
       <button (click)="recalculate()" [disabled]="actionInProgress || quote.status !== 'Active'">Recalculate</button>
+      <button (click)="requestConvert()" [disabled]="actionInProgress || quote.status !== 'Active'" class="btn-convert">Convert Quote</button>
+      <button (click)="requestCancel()" [disabled]="actionInProgress || quote.status !== 'Active'" class="btn-cancel">Cancel Quote</button>
+      
       <div class="confirm-overlay" *ngIf="showConfirmDialog">
-    <div class="confirm-box">
-        <p>{{ confirmMessage }}</p>
-        <div class="confirm-actions">
-        <button class="btn-secondary" (click)="onConfirmNo()">Cancel</button>
-        <button class="btn-primary" (click)="onConfirmYes()">Yes, Continue</button>
+        <div class="confirm-box">
+          <p>{{ confirmMessage }}</p>
+          <div class="confirm-actions">
+            <button class="btn-secondary" (click)="onConfirmNo()">No, Go Back</button>
+            <button class="btn-primary" (click)="onConfirmYes()">Yes, Continue</button>
+          </div>
         </div>
-    </div>
-    </div>
+      </div>
     </div>
   </div>
 </div>

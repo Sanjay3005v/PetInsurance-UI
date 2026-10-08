@@ -34,7 +34,7 @@
 
   <!-- Filters -->
   <section class="filters">
-    <input type="text" [(ngModel)]="searchQuery" placeholder="Search by name or email" />
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Search by name, email, or quote #" />
     <select [(ngModel)]="species">
       <option value="">All Species</option>
       <option value="Dog">Dog</option>
@@ -47,7 +47,16 @@
       <option value="Expired">Expired</option>
       <option value="Cancelled">Cancelled</option>
     </select>
+    <div class="date-filter">
+      <label>From:</label>
+      <input type="date" [(ngModel)]="fromDate" />
+    </div>
+    <div class="date-filter">
+      <label>To:</label>
+      <input type="date" [(ngModel)]="toDate" />
+    </div>
     <button (click)="applyFilters()" class="btn-primary">Search</button>
+    <button (click)="resetFilters()" class="btn-secondary">Reset</button>
   </section>
 
   <!-- Quote Grid -->

@@ -18,7 +18,7 @@ export class QuoteForm implements OnInit {
   errorMessage = '';
   isSubmitting = false;
 
-  private readonly namePattern = /^[a-zA-Z][a-zA-Z\s.]{0,49}$/;
+  private readonly namePattern = /^[a-zA-Z][a-zA-Z\s.'-]{0,49}$/;
   private readonly emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
   private readonly phonePattern = /^[6-9][0-9]{9}$/;
   private readonly zipPattern = /^[0-9]{6}$/;
@@ -44,7 +44,7 @@ export class QuoteForm implements OnInit {
       hasPreExistingCondition: [false],
       annualLimit: ['', [Validators.required, Validators.min(1), Validators.max(100000)]],
       deductible: ['', [Validators.required, Validators.min(0), Validators.max(10000)]],
-      reimbursementPct: ['', [Validators.required, Validators.min(0.1), Validators.max(1)]],
+      reimbursementPct: ['', [Validators.required, Validators.min(0.1), Validators.max(100)]],
       wellness: [false]
     }, {
       validators: [

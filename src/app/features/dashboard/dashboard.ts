@@ -20,6 +20,8 @@ export class Dashboard implements OnInit {
   searchQuery = '';
   species = '';
   status = '';
+  fromDate = '';
+  toDate = '';
   pageNumber = 1;
   pageSize = 10;
   totalPages = 0;
@@ -30,7 +32,7 @@ export class Dashboard implements OnInit {
   constructor(
     private quoteService: Quote,
     private authService: Auth,
-    private router: Router,
+    public router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -58,6 +60,8 @@ export class Dashboard implements OnInit {
       searchQuery: this.searchQuery,
       species: this.species,
       status: this.status,
+      fromDate: this.fromDate,
+      toDate: this.toDate,
       pageNumber: this.pageNumber,
       pageSize: this.pageSize
     }).subscribe({
@@ -76,6 +80,16 @@ export class Dashboard implements OnInit {
   }
 
   applyFilters(): void {
+    this.pageNumber = 1;
+    this.loadQuotes();
+  }
+
+  resetFilters(): void {
+    this.searchQuery = '';
+    this.species = '';
+    this.status = '';
+    this.fromDate = '';
+    this.toDate = '';
     this.pageNumber = 1;
     this.loadQuotes();
   }
@@ -99,18 +113,27 @@ export class Dashboard implements OnInit {
   }
 
   recalculate(id: number): void {
-    this.quoteService.recalculate(id).subscribe(() => this.loadQuotes());
+    this.quoteService.recalculate(id).subscribe(() => {
+      this.loadQuotes();
+      this.loadMetrics();
+    });
   }
 
   convert(id: number): void {
     if (confirm('Convert this quote to a policy? This action cannot be undone.')) {
-      this.quoteService.convert(id).subscribe(() => this.loadQuotes());
+      this.quoteService.convert(id).subscribe(() => {
+        this.loadQuotes();
+        this.loadMetrics();
+      });
     }
   }
 
   cancelQuote(id: number): void {
     if (confirm('Cancel this quote?')) {
-      this.quoteService.cancel(id).subscribe(() => this.loadQuotes());
+      this.quoteService.cancel(id).subscribe(() => {
+        this.loadQuotes();
+        this.loadMetrics();
+      });
     }
   }
 
