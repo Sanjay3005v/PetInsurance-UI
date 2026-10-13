@@ -84,8 +84,8 @@
         <td><span class="status-badge" [class]="q.status.toLowerCase()">{{ q.status }}</span></td>
         <td class="actions">
           <button (click)="viewQuote(q.quoteId)">View</button>
-          <button (click)="editQuote(q.quoteId)">Edit</button>
-          <button (click)="recalculate(q.quoteId)">Recalc</button>
+          <button (click)="editQuote(q.quoteId)" *ngIf="q.status === 'Active'">Edit</button>
+          <button (click)="recalculate(q.quoteId)" *ngIf="q.status === 'Active'">Recalc</button>
           <button (click)="convert(q.quoteId)" *ngIf="q.status === 'Active'">Convert</button>
           <button (click)="cancelQuote(q.quoteId)" *ngIf="q.status === 'Active'">Cancel</button>
         </td>
